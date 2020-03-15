@@ -34,6 +34,7 @@ class DetailFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
+        
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
