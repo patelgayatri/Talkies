@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical">
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:gravity="center"
+            android:id="@+id/dtl_txt_date"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_date_range_black_24dp"
+            style="@style/allTextHeader"
+
+            />
+        <TextView
+            android:id="@+id/dtl_txt_review"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:drawableTop="@drawable/ic_star_black_24dp"
+            style="@style/allTextHeader"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="16dp"
+        style="@style/allTextHeader"
+        android:text="Overview"
+        />
+    <TextView
+        android:id="@+id/dtl_txt_overview"
+        style="@style/allText"
+        android:layout_marginTop="4dp"
+        />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        style="@style/allTextHeader"
+        android:text="Home Page"
+        />
+    <TextView
+        android:layout_marginTop="4dp"
+        android:id="@+id/dtl_txt_homePage"
+        style="@style/allText"
+        />
+</LinearLayout>
