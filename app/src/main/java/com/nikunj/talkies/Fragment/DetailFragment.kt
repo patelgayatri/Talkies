@@ -24,7 +24,7 @@ class DetailFragment : Fragment() {
     private var movieIDvalue: Int = 0
     companion object {
 
-        
+
         const val Movie_ID = "movie_id"
         private const val ARG_COUNT = "param1"
         @JvmStatic
