@@ -48,6 +48,7 @@ class DetailFragment : Fragment() {
         activity?.fab?.setOnClickListener { view ->
             addToFavourite(view)
 
+
         }
     }
     override fun onCreateView(
