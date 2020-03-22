@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.Splash"
+        <activity android:name=".activities.Splash"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +22,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.DetailActivity"
+            android:name=".activities.DetailActivity"
             android:label="@string/title_detail_detail"></activity>
-        <activity android:name=".Activity.DashBoard">
+        <activity android:name=".activities.DashBoard">
 
         </activity>
     </application>

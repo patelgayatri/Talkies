@@ -1,4 +1,4 @@
-package com.nikunj.talkies.Activity
+package com.nikunj.talkies.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

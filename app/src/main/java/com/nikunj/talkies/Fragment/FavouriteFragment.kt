@@ -2,11 +2,14 @@ package com.nikunj.talkies.Fragment
 
 import HomeAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nikunj.talkies.Database.DBHelper
+import com.nikunj.talkies.Model.AddFavourite
 import com.nikunj.talkies.Model.HomeMovie
 import com.nikunj.talkies.Model.ResultsModel
 import com.nikunj.talkies.R
@@ -22,6 +25,7 @@ import retrofit2.Response
 class FavouriteFragment : Fragment() {
     private var counter: Int? = null
     private var twoPane: Boolean = false
+    lateinit var dbHelper: DBHelper
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +50,7 @@ class FavouriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        dbHelper= activity?.let { DBHelper(it) }!!
         val dataService: DataService = ServiceBuilder.buildService(DataService::class.java)
 
         val requestCall: Call<HomeMovie> = dataService.getFavouriteList(apiKey, Session_ID)
@@ -58,6 +63,11 @@ class FavouriteFragment : Fragment() {
 
                 var movieDetails = response.body()
                 var movieList: List<ResultsModel> = movieDetails?.results as List<ResultsModel>
+                for(item in movieList) {
+                    Log.d("====favo", item.originalTitle)
+                    dbHelper.addFavourite(AddFavourite(item.title!!, item.id!!,true))
+
+                }
                 detail_list.layoutManager = LinearLayoutManager(view.context)
                 detail_list.adapter = HomeAdapter(movieList, activity,twoPane)
 

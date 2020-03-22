@@ -19,7 +19,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.nikunj.talkies.Activity.DetailListActivity"
+        tools:context="com.nikunj.talkies.activities.DetailListActivity"
         />
 
     <FrameLayout

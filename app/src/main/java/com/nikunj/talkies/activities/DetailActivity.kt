@@ -1,9 +1,7 @@
-package com.nikunj.talkies.Activity
+package com.nikunj.talkies.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity

@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.nikunj.talkies.Activity.DetailActivity
+import com.nikunj.talkies.activities.DetailActivity
 import com.nikunj.talkies.Fragment.DetailFragment
 import com.nikunj.talkies.R
 import com.nikunj.talkies.network.ServiceBuilder.IMAGE_URL
