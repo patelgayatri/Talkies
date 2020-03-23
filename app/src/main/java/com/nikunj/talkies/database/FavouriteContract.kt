@@ -1,9 +1,9 @@
-package com.nikunj.talkies.Database
+package com.nikunj.talkies.database
 
 import android.provider.BaseColumns
 
 object FavouriteContract {
-    object FavouriteEntrry : BaseColumns {
+    object FavouriteEntry : BaseColumns {
         const val TABLE_NAME = "FAVOURITE"
         const val COLUMN_NAME_ID = "id"
         const val COLUMN_NAME_TITLE = "title"

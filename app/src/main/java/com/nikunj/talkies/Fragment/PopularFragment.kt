@@ -43,6 +43,7 @@ class PopularFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
+
         super.onViewCreated(view, savedInstanceState)
         val dataService: DataService = ServiceBuilder.buildService(DataService::class.java)
 

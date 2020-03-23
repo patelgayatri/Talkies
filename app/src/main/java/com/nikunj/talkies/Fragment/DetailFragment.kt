@@ -1,6 +1,8 @@
 package com.nikunj.talkies.Fragment
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import com.nikunj.talkies.Model.AddFavourite
 import com.nikunj.talkies.Model.DetailMovie
 import com.nikunj.talkies.Model.ResultFavourite
 import com.nikunj.talkies.R
+import com.nikunj.talkies.database.DBHelper
 import com.nikunj.talkies.network.DataService
 import com.nikunj.talkies.network.ServiceBuilder
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -22,8 +25,10 @@ import retrofit2.Response
 
 class DetailFragment : Fragment() {
     private var movieIDvalue: Int = 0
-    companion object {
+    lateinit var dbHelper: DBHelper
+    var isFav=false
 
+    companion object {
 
         const val Movie_ID = "movie_id"
         private const val ARG_COUNT = "param1"
@@ -57,15 +62,17 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        dbHelper= container?.context?.let { DBHelper(it) }!!
+        isFav=dbHelper.isFavourite(movieIDvalue)
         val rootView = inflater.inflate(R.layout.detail, container, false)
         loadDetail(rootView)
 
         return rootView
     }
     private fun addToFavourite(view: View) {
+        var status= !isFav
         val dataService: DataService = ServiceBuilder.buildService(DataService::class.java)
-
-        val addFavourite = AddFavourite("movie", movieIDvalue,true)
+        val addFavourite = AddFavourite("movie", movieIDvalue,status)
         val requestCall: Call<ResultFavourite> =dataService.makeFavourite(addFavourite,ServiceBuilder.apiKey,ServiceBuilder.Session_ID)
 
         requestCall.enqueue(object :Callback<ResultFavourite> {
@@ -113,6 +120,9 @@ class DetailFragment : Fragment() {
                     .load(imgUrl)
                     .centerCrop()
                     .into(activity?.toolbar_layout?.detail_image!!)
+                if(isFav) {
+                    activity?.fab?.setImageResource(R.drawable.ic_favorite_black_24dp)
+                }
 
 
             }

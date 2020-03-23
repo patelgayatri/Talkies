@@ -29,9 +29,9 @@ class DashBoard : AppCompatActivity() {
 
     private fun setTabTitle(tab: TabLayout.Tab, position: Int) {
         if (position == 0) {
-            tab.text = "Popular"
-        } else if (position == 1) {
             tab.text = "Favourite"
+        } else if (position == 1) {
+            tab.text = "Popular"
         } else if (position == 2) {
             tab.text = "Trending"
         }
