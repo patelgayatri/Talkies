@@ -114,7 +114,7 @@ class DetailFragment : Fragment() {
                 rootView.dtl_txt_date.text = movieDetails?.releaseDate
                 rootView.dtl_txt_review.text = movieDetails?.voteAverage.toString()
                 activity?.toolbar_layout?.title = movieDetails?.title
-                val imgUrl: String? = ServiceBuilder.IMAGE_URL + movieDetails?.posterPath
+                val imgUrl: String? = ServiceBuilder.IMAGE_URL + movieDetails?.backdropPath
 
                 Glide.with(rootView)
                     .load(imgUrl)

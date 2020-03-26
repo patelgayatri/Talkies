@@ -2,11 +2,13 @@ package com.nikunj.talkies.Fragment
 
 import HomeAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.nikunj.talkies.Model.HomeMovie
 import com.nikunj.talkies.Model.ResultsModel
 import com.nikunj.talkies.R
@@ -20,7 +22,11 @@ import retrofit2.Response
 class PopularFragment : Fragment() {
     private var counter: Int? = null
     private var twoPane: Boolean = false
-
+    var total = 0
+    var page = 1
+    lateinit var movieList: List<ResultsModel>
+    var movieArrayList= ArrayList<ResultsModel>()
+    var scrollPosition=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +41,7 @@ class PopularFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? { // Inflate the layout for this fragment
+    ): View? {
         return inflater.inflate(R.layout.fragment_fav, container, false)
     }
 
@@ -45,21 +51,41 @@ class PopularFragment : Fragment() {
     ) {
 
         super.onViewCreated(view, savedInstanceState)
+        getData(page)
+        detail_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) {
+                    var lm:LinearLayoutManager = detail_list.layoutManager as LinearLayoutManager
+                    if (lm.findLastCompletelyVisibleItemPosition() == movieArrayList.size-1) {
+                        page++
+                        getData( page)
+
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy)
+            }
+
+        })
+
+    }
+
+    private fun getData(pageNo: Int) {
+
         val dataService: DataService = ServiceBuilder.buildService(DataService::class.java)
+        val requestCall: Call<HomeMovie> =
+            dataService.getPopularMovies(ServiceBuilder.apiKey, pageNo)
 
-        val requestCall: Call<HomeMovie> = dataService.getPopularMovies(ServiceBuilder.apiKey)
-
-        requestCall.enqueue(object  : Callback<HomeMovie> {
+        requestCall.enqueue(object : Callback<HomeMovie> {
             override fun onResponse(
                 call: Call<HomeMovie>,
                 response: Response<HomeMovie>
             ) {
-
+                scrollPosition=movieArrayList.size
                 var movieDetails = response.body()
-                var movieList: List<ResultsModel> = movieDetails?.results as List<ResultsModel>
-                detail_list.layoutManager = LinearLayoutManager(view.context)
-                detail_list.adapter = HomeAdapter(movieList, activity,twoPane)
-
+                movieList = movieDetails?.results as List<ResultsModel>
+                movieArrayList.addAll(movieList)
+                detail_list.adapter = HomeAdapter(movieArrayList, activity, twoPane)
+                detail_list.scrollToPosition(scrollPosition)
             }
 
             override fun onFailure(call: Call<HomeMovie>, t: Throwable) {

@@ -18,7 +18,7 @@ interface DataService {
     fun makeFavourite(@Body addFavourite: AddFavourite, @Query("api_key") api_key: String, @Query("session_id") session_id: String): Call<ResultFavourite>
 
     @GET("movie/top_rated")
-    fun getPopularMovies(@Query("api_key") api: String): Call<HomeMovie>
+    fun getPopularMovies(@Query("api_key") api: String,@Query("page")page:Int): Call<HomeMovie>
 
     @GET("trending/movie/week")
     fun getTrendingMovies(@Query("api_key") api: String): Call<HomeMovie>
