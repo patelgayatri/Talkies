@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.nikunj.talkies.Fragment.DetailFragment
+import com.nikunj.talkies.fragment.DetailFragment
 import com.nikunj.talkies.R
 import kotlinx.android.synthetic.main.activity_detail.*
 

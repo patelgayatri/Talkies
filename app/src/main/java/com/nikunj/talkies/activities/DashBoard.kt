@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
-import com.nikunj.talkies.Adapter.ViewPagerAdapter
+import com.nikunj.talkies.adapter.ViewPagerAdapter
 import com.nikunj.talkies.R
 import kotlinx.android.synthetic.main.activity_dash.*
 
@@ -13,11 +13,11 @@ class DashBoard : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dash)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(dash_toolbar)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        view_pager.setAdapter(createCardAdapter())
+        dash_view_pager.adapter = createCardAdapter()
         TabLayoutMediator(
-            tabs,view_pager,
+            dash_tabs,dash_view_pager,
             TabConfigurationStrategy { tab: TabLayout.Tab, position: Int ->
                 setTabTitle(
                     tab,
@@ -28,12 +28,16 @@ class DashBoard : AppCompatActivity() {
     }
 
     private fun setTabTitle(tab: TabLayout.Tab, position: Int) {
-        if (position == 0) {
-            tab.text = "Favourite"
-        } else if (position == 1) {
-            tab.text = "Popular"
-        } else if (position == 2) {
-            tab.text = "Trending"
+        when (position) {
+            0 -> {
+                tab.text = "Favourite"
+            }
+            1 -> {
+                tab.text = "Popular"
+            }
+            2 -> {
+                tab.text = "Trending"
+            }
         }
     }
 

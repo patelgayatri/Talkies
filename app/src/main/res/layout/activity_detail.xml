@@ -25,7 +25,7 @@
             app:expandedTitleTextAppearance="@style/collapseTitleExpa"
             app:collapsedTitleTextAppearance="@style/collapseTitle"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@+id/dash_toolbar">
             <ImageView
                 android:id="@+id/detail_image"
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/detail_favorite_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"

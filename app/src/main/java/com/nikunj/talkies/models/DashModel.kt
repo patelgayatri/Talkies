@@ -1,9 +1,9 @@
-package com.nikunj.talkies.Model
+package com.nikunj.talkies.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class HomeMovie {
+class DashModel {
     @SerializedName("page")
     @Expose
     var page: Int? = null
@@ -15,6 +15,6 @@ class HomeMovie {
     var totalPages: Int? = null
     @SerializedName("results")
     @Expose
-    var results: List<ResultsModel>? = null
+    var results: List<ResultsDashModel>? = null
 
 }

@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/detail_list"
+            android:id="@+id/dash_recyclerview"
             android:name="com.nikunj.talkies.Activity.DetailListFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
 
         <ProgressBar
             android:indeterminateTint="@color/colorPrimaryDark"
-            android:id="@+id/progressBar"
+            android:id="@+id/dash_progressBar"
             android:layout_width="match_parent"
             android:layout_height="48dp" />
     </LinearLayout>

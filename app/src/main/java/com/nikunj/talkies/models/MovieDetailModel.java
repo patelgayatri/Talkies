@@ -1,12 +1,12 @@
 
-package com.nikunj.talkies.Model;
+package com.nikunj.talkies.models;
 
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DetailMovie {
+public class MovieDetailModel {
 
     @SerializedName("adult")
     @Expose

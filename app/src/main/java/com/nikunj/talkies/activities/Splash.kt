@@ -8,7 +8,7 @@ import com.nikunj.talkies.R
 
 class Splash : AppCompatActivity() {
 
-    private val SplashTimeOut=3000L
+    private val splashTimeOut=3000L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -18,7 +18,7 @@ class Splash : AppCompatActivity() {
                 val i = Intent(this, DashBoard::class.java)
                 startActivity(i)
                 finish()
-            }, SplashTimeOut
+            }, splashTimeOut
         )
     }
 

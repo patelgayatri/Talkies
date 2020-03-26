@@ -1,3 +1,4 @@
+package com.nikunj.talkies.adapter
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,28 +11,26 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nikunj.talkies.activities.DetailActivity
-import com.nikunj.talkies.Fragment.DetailFragment
+import com.nikunj.talkies.fragment.DetailFragment
 import com.nikunj.talkies.R
 import com.nikunj.talkies.network.ServiceBuilder.IMAGE_URL
-import com.nikunj.talkies.Model.ResultsModel
+import com.nikunj.talkies.models.ResultsDashModel
 
-import kotlinx.android.synthetic.main.row_home.view.*
+import kotlinx.android.synthetic.main.row_dash.view.*
 
-class HomeAdapter(
-    val items: List<ResultsModel>,
-    val context: FragmentActivity?,
+class DashAdapter(
+    private val itemsList: List<ResultsDashModel>,
+    private val context: FragmentActivity?,
     private val twoPane:Boolean
 ):
-    RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+    RecyclerView.Adapter<DashAdapter.ViewHolder>() {
 
     private val onClickListener: View.OnClickListener
 
     init {
-        println("init called home")
 
         onClickListener = View.OnClickListener { v ->
-            // val item = v.tag as DummyContent.DummyItem
-         var movieId= v.tag
+         val movieId: Any = v.tag
 
             if (twoPane) {
                 val fragment = DetailFragment().apply {
@@ -54,21 +53,21 @@ class HomeAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_home, parent, false))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_dash, parent, false))
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return itemsList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var imgUrl: String? = IMAGE_URL + items.get(position).posterPath
-        holder.name.text = items.get(position).title
-        holder.review.text = items.get(position).voteAverage.toString()
+        val imgUrl: String? = IMAGE_URL + itemsList[position].posterPath
+        holder.name.text = itemsList.get(position).title
+        holder.review.text = itemsList.get(position).voteAverage.toString()
         Glide.with(holder.itemView)
             .load(imgUrl)
             .into(holder.image)
-        val item = items[position]
+        val item = itemsList[position]
 
         with(holder.itemView) {
             tag = item.id
@@ -78,8 +77,8 @@ class HomeAdapter(
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var name: TextView = view.row_home_title
-        var review: TextView = view.row_home_review
-        var image: ImageView = view.row_home_image
+        var name: TextView = view.row_dash_title
+        var review: TextView = view.row_dash_review
+        var image: ImageView = view.row_dash_image
     }
 }

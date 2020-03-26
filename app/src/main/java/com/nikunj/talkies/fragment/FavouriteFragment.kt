@@ -1,20 +1,17 @@
-package com.nikunj.talkies.Fragment
+package com.nikunj.talkies.fragment
 
-import HomeAdapter
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikunj.talkies.database.DBHelper
-import com.nikunj.talkies.Model.AddFavourite
-import com.nikunj.talkies.Model.HomeMovie
-import com.nikunj.talkies.Model.ResultsModel
+import com.nikunj.talkies.models.AddFavouriteModel
+import com.nikunj.talkies.models.DashModel
+import com.nikunj.talkies.models.ResultsDashModel
 import com.nikunj.talkies.R
+import com.nikunj.talkies.adapter.DashAdapter
 import com.nikunj.talkies.network.DataService
 import com.nikunj.talkies.network.ServiceBuilder
 import com.nikunj.talkies.network.ServiceBuilder.Session_ID
@@ -33,8 +30,6 @@ class FavouriteFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //dbHelper = DBHelper(this)
-
         if (arguments != null) {
             counter = arguments!!.getInt(ARG_COUNT)
         }
@@ -46,8 +41,8 @@ class FavouriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? { // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fav, container, false)
+    ): View? {
+        return inflater.inflate(R.layout.fragment_dash, container, false)
     }
 
 
@@ -60,26 +55,26 @@ class FavouriteFragment : Fragment() {
 
         val dataService: DataService = ServiceBuilder.buildService(DataService::class.java)
 
-        val requestCall: Call<HomeMovie> = dataService.getFavouriteList(apiKey, Session_ID)
+        val requestCall: Call<DashModel> = dataService.getFavouriteList(apiKey, Session_ID)
 
-        requestCall.enqueue(object  : Callback<HomeMovie> {
+        requestCall.enqueue(object  : Callback<DashModel> {
             override fun onResponse(
-                call: Call<HomeMovie>,
-                response: Response<HomeMovie>
+                call: Call<DashModel>,
+                response: Response<DashModel>
             ) {
 
-                var movieDetails = response.body()
-                var movieList: List<ResultsModel> = movieDetails?.results as List<ResultsModel>
+                val movieDetails = response.body()
+                val movieList: List<ResultsDashModel> = movieDetails?.results as List<ResultsDashModel>
                 for(item in movieList) {
-                    dbHelper.addFavourite(AddFavourite(item.title!!, item.id!!,true))
+                    dbHelper.addFavourite(AddFavouriteModel(item.title!!, item.id!!,true))
 
                 }
-                detail_list.layoutManager = LinearLayoutManager(view.context)
-                detail_list.adapter = HomeAdapter(movieList, activity,twoPane)
+                dash_recyclerview.layoutManager = LinearLayoutManager(view.context)
+                dash_recyclerview.adapter = DashAdapter(movieList, activity,twoPane)
 
             }
 
-            override fun onFailure(call: Call<HomeMovie>, t: Throwable) {
+            override fun onFailure(call: Call<DashModel>, t: Throwable) {
 
             }
         })

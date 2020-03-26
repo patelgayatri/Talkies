@@ -1,11 +1,11 @@
-package com.nikunj.talkies.Adapter
+package com.nikunj.talkies.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.nikunj.talkies.Fragment.FavouriteFragment
-import com.nikunj.talkies.Fragment.PopularFragment
-import com.nikunj.talkies.Fragment.TrendingFragment
+import com.nikunj.talkies.fragment.FavouriteFragment
+import com.nikunj.talkies.fragment.PopularFragment
+import com.nikunj.talkies.fragment.TrendingFragment
 
 class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {

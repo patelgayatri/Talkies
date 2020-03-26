@@ -1,17 +1,15 @@
-package com.nikunj.talkies.Fragment
+package com.nikunj.talkies.fragment
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.nikunj.talkies.Model.AddFavourite
-import com.nikunj.talkies.Model.DetailMovie
-import com.nikunj.talkies.Model.ResultFavourite
+import com.nikunj.talkies.models.AddFavouriteModel
+import com.nikunj.talkies.models.MovieDetailModel
+import com.nikunj.talkies.models.ResultFavouriteModel
 import com.nikunj.talkies.R
 import com.nikunj.talkies.database.DBHelper
 import com.nikunj.talkies.network.DataService
@@ -24,22 +22,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailFragment : Fragment() {
-    private var movieIDvalue: Int = 0
-    lateinit var dbHelper: DBHelper
+    private var movieIDValue: Int = 0
+    private lateinit var dbHelper: DBHelper
     var isFav=false
 
     companion object {
 
         const val Movie_ID = "movie_id"
-        private const val ARG_COUNT = "param1"
-        @JvmStatic
-        fun newInstance(counter: Int?): DetailFragment {
-            val fragment = DetailFragment()
-            val args = Bundle()
-            args.putInt(ARG_COUNT, counter!!)
-            fragment.arguments = args
-            return fragment
-        }
 
     }
 
@@ -48,11 +37,11 @@ class DetailFragment : Fragment() {
 
         arguments?.let {
 
-            movieIDvalue = it.getString(Movie_ID)?.toInt()!!
+            movieIDValue = it.getString(Movie_ID)?.toInt()!!
 
             activity?.toolbar_layout?.title = it.getString(Movie_ID)
         }
-        activity?.fab?.setOnClickListener { view ->
+        activity?.detail_favorite_fab?.setOnClickListener { view ->
             addToFavourite(view)
 
 
@@ -63,34 +52,33 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         dbHelper= container?.context?.let { DBHelper(it) }!!
-        isFav=dbHelper.isFavourite(movieIDvalue)
+        isFav=dbHelper.isFavourite(movieIDValue)
         val rootView = inflater.inflate(R.layout.detail, container, false)
         loadDetail(rootView)
 
         return rootView
     }
     private fun addToFavourite(view: View) {
-        var status= !isFav
+        val status= !isFav
         val dataService: DataService = ServiceBuilder.buildService(DataService::class.java)
-        val addFavourite = AddFavourite("movie", movieIDvalue,status)
-        val requestCall: Call<ResultFavourite> =dataService.makeFavourite(addFavourite,ServiceBuilder.apiKey,ServiceBuilder.Session_ID)
+        val addFavourite = AddFavouriteModel("movie", movieIDValue,status)
+        val requestCall: Call<ResultFavouriteModel> =dataService.makeFavourite(addFavourite,ServiceBuilder.apiKey,ServiceBuilder.Session_ID)
 
-        requestCall.enqueue(object :Callback<ResultFavourite> {
+        requestCall.enqueue(object :Callback<ResultFavouriteModel> {
 
 
             override fun onResponse(
-                call: Call<ResultFavourite>,
-                response: Response<ResultFavourite>
+                call: Call<ResultFavouriteModel>,
+                response: Response<ResultFavouriteModel>
             ) {
                 val favouriteDetails = response.body()
 
                 Snackbar.make(view, favouriteDetails!!.statusMessage, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()            }
 
-            override fun onFailure(call: Call<ResultFavourite>, t: Throwable) {
-                Snackbar.make(view, t.localizedMessage, Snackbar.LENGTH_LONG)
+            override fun onFailure(call: Call<ResultFavouriteModel>, t: Throwable) =
+                Snackbar.make(view, t.message.toString(), Snackbar.LENGTH_LONG)
                     .show()
-            }
 
         })    }
 
@@ -98,14 +86,14 @@ class DetailFragment : Fragment() {
     private fun loadDetail(rootView: View) {
         val dataService: DataService = ServiceBuilder.buildService(DataService::class.java)
 
-        val requestCall: Call<DetailMovie> = dataService.getMoviesList(
-            movieIDvalue,
+        val requestCall: Call<MovieDetailModel> = dataService.getMoviesList(
+            movieIDValue,
             ServiceBuilder.apiKey
         )
-        requestCall.enqueue(object : Callback<DetailMovie> {
+        requestCall.enqueue(object : Callback<MovieDetailModel> {
             override fun onResponse(
-                call: Call<DetailMovie>,
-                response: Response<DetailMovie>
+                call: Call<MovieDetailModel>,
+                response: Response<MovieDetailModel>
             ) {
 
                 val movieDetails = response.body()
@@ -121,13 +109,13 @@ class DetailFragment : Fragment() {
                     .centerCrop()
                     .into(activity?.toolbar_layout?.detail_image!!)
                 if(isFav) {
-                    activity?.fab?.setImageResource(R.drawable.ic_favorite_black_24dp)
+                    activity?.detail_favorite_fab?.setImageResource(R.drawable.ic_favorite_black_24dp)
                 }
 
 
             }
 
-            override fun onFailure(call: Call<DetailMovie>, t: Throwable) {
+            override fun onFailure(call: Call<MovieDetailModel>, t: Throwable) {
 
             }
         })

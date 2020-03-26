@@ -1,18 +1,17 @@
-package com.nikunj.talkies.Fragment
+package com.nikunj.talkies.fragment
 
-import HomeAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikunj.talkies.Model.HomeMovie
-import com.nikunj.talkies.Model.ResultsModel
+import com.nikunj.talkies.models.DashModel
+import com.nikunj.talkies.models.ResultsDashModel
 import com.nikunj.talkies.R
+import com.nikunj.talkies.adapter.DashAdapter
 import com.nikunj.talkies.network.DataService
 import com.nikunj.talkies.network.ServiceBuilder
-import com.nikunj.talkies.network.ServiceBuilder.Session_ID
 import com.nikunj.talkies.network.ServiceBuilder.apiKey
 import kotlinx.android.synthetic.main.detail_list.*
 import retrofit2.Call
@@ -37,8 +36,8 @@ class TrendingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? { // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fav, container, false)
+    ): View? {
+        return inflater.inflate(R.layout.fragment_dash, container, false)
     }
 
     override fun onViewCreated(
@@ -48,22 +47,22 @@ class TrendingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val dataService: DataService = ServiceBuilder.buildService(DataService::class.java)
 
-        val requestCall: Call<HomeMovie> = dataService.getTrendingMovies(apiKey)
+        val requestCall: Call<DashModel> = dataService.getTrendingMovies(apiKey)
 
-        requestCall.enqueue(object  : Callback<HomeMovie> {
+        requestCall.enqueue(object : Callback<DashModel> {
             override fun onResponse(
-                call: Call<HomeMovie>,
-                response: Response<HomeMovie>
+                call: Call<DashModel>,
+                response: Response<DashModel>
             ) {
 
-                var movieDetails = response.body()
-                var movieList: List<ResultsModel> = movieDetails?.results as List<ResultsModel>
-                detail_list.layoutManager = LinearLayoutManager(view.context)
-                detail_list.adapter = HomeAdapter(movieList, activity,twoPane)
+                val movieDetails = response.body()
+                val movieList: List<ResultsDashModel> = movieDetails?.results as List<ResultsDashModel>
+                dash_recyclerview.layoutManager = LinearLayoutManager(view.context)
+                dash_recyclerview.adapter = DashAdapter(movieList, activity, twoPane)
 
             }
 
-            override fun onFailure(call: Call<HomeMovie>, t: Throwable) {
+            override fun onFailure(call: Call<DashModel>, t: Throwable) {
 
             }
         })

@@ -1,17 +1,16 @@
-package com.nikunj.talkies.Fragment
+package com.nikunj.talkies.fragment
 
-import HomeAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.nikunj.talkies.Model.HomeMovie
-import com.nikunj.talkies.Model.ResultsModel
+import com.nikunj.talkies.models.DashModel
+import com.nikunj.talkies.models.ResultsDashModel
 import com.nikunj.talkies.R
+import com.nikunj.talkies.adapter.DashAdapter
 import com.nikunj.talkies.network.DataService
 import com.nikunj.talkies.network.ServiceBuilder
 import kotlinx.android.synthetic.main.detail_list.*
@@ -22,11 +21,10 @@ import retrofit2.Response
 class PopularFragment : Fragment() {
     private var counter: Int? = null
     private var twoPane: Boolean = false
-    var total = 0
-    var page = 1
-    lateinit var movieList: List<ResultsModel>
-    var movieArrayList= ArrayList<ResultsModel>()
-    var scrollPosition=0
+    private var page = 1
+    lateinit var movieList: List<ResultsDashModel>
+    private var movieArrayList= ArrayList<ResultsDashModel>()
+    private var scrollPosition=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +40,7 @@ class PopularFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_fav, container, false)
+        return inflater.inflate(R.layout.fragment_dash, container, false)
     }
 
     override fun onViewCreated(
@@ -52,10 +50,10 @@ class PopularFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         getData(page)
-        detail_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        dash_recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
-                    var lm:LinearLayoutManager = detail_list.layoutManager as LinearLayoutManager
+                    val lm:LinearLayoutManager = dash_recyclerview.layoutManager as LinearLayoutManager
                     if (lm.findLastCompletelyVisibleItemPosition() == movieArrayList.size-1) {
                         page++
                         getData( page)
@@ -72,23 +70,23 @@ class PopularFragment : Fragment() {
     private fun getData(pageNo: Int) {
 
         val dataService: DataService = ServiceBuilder.buildService(DataService::class.java)
-        val requestCall: Call<HomeMovie> =
+        val requestCall: Call<DashModel> =
             dataService.getPopularMovies(ServiceBuilder.apiKey, pageNo)
 
-        requestCall.enqueue(object : Callback<HomeMovie> {
+        requestCall.enqueue(object : Callback<DashModel> {
             override fun onResponse(
-                call: Call<HomeMovie>,
-                response: Response<HomeMovie>
+                call: Call<DashModel>,
+                response: Response<DashModel>
             ) {
                 scrollPosition=movieArrayList.size
-                var movieDetails = response.body()
-                movieList = movieDetails?.results as List<ResultsModel>
+                val movieDetails = response.body()
+                movieList = movieDetails?.results as List<ResultsDashModel>
                 movieArrayList.addAll(movieList)
-                detail_list.adapter = HomeAdapter(movieArrayList, activity, twoPane)
-                detail_list.scrollToPosition(scrollPosition)
+                dash_recyclerview.adapter = DashAdapter(movieArrayList, activity, twoPane)
+                dash_recyclerview.scrollToPosition(scrollPosition)
             }
 
-            override fun onFailure(call: Call<HomeMovie>, t: Throwable) {
+            override fun onFailure(call: Call<DashModel>, t: Throwable) {
 
             }
         })

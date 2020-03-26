@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.nikunj.talkies.Model.AddFavourite
+import com.nikunj.talkies.models.AddFavouriteModel
 import com.nikunj.talkies.database.FavouriteContract.FavouriteEntry.COLUMN_NAME_ID
 import com.nikunj.talkies.database.FavouriteContract.FavouriteEntry.COLUMN_NAME_TITLE
 import com.nikunj.talkies.database.FavouriteContract.FavouriteEntry.TABLE_NAME
@@ -14,8 +14,8 @@ class DBHelper(context: Context) :
 
 
     companion object {
-        private val DATABASE_NAME = "MOVIE_DATABASE"
-        private val DATABASE_VERSION = 1
+        private const val DATABASE_NAME = "MOVIE_DATABASE"
+        private const val DATABASE_VERSION = 1
 
     }
 
@@ -36,7 +36,7 @@ class DBHelper(context: Context) :
         onUpgrade(db, oldVersion, newVersion)
     }
 
-    fun addFavourite(addFavourite: AddFavourite): Long {
+    fun addFavourite(addFavourite: AddFavouriteModel): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(COLUMN_NAME_ID, addFavourite.media_id)
